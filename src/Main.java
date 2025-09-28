@@ -6,6 +6,7 @@ public class Main {
         // to see how IntelliJ IDEA suggests fixing it.
         System.out.printf("Hello and welcome!");
         BaseIngredientOre ironOre = new BaseIngredientOre(1,240,"Iron Ore");
+        BaseIngredientOre limestone =  new BaseIngredientOre(1,240,"Limestone");
 
         PartSmelter ironIngot = new PartSmelter(1, 30, "Iron Ingot");
         ironIngot.add(ironOre, 1);
@@ -19,10 +20,15 @@ public class Main {
         PartConstructor screws =  new PartConstructor(4, 40, "Screws");
         screws.add(ironRod, 1);
 
-        PartAssembler reinforcedIronPlate = new PartAssembler(1, 5, "Iron Plate");
+        PartAssembler reinforcedIronPlate = new PartAssembler(1, 5, "Reinforced Iron Plate");
         reinforcedIronPlate.add(ironPlate, 6);
         reinforcedIronPlate.add(screws, 12);
 
+
+
+        Calculator calculator = new Calculator();
+        System.out.println(calculator.getIngredientsAPM(reinforcedIronPlate, 10));
+        System.out.println(calculator.getBuildingCount(reinforcedIronPlate, 10));
 
     }
 }

@@ -1,9 +1,9 @@
 public abstract class AbstractProduct {
-    private double apm;
-    private double amount;
-    private String name;
+    protected double apm;
+    protected double amount;
+    protected String name;
 
-    public AbstractProduct(double apm, double amount,String name) {
+    public AbstractProduct(double amount, double apm,String name) {
         this.apm = apm;
         this.amount = amount;
         this.name = name;
