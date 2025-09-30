@@ -7,7 +7,7 @@ public class AbstractPartIterator<AbstractProduct> implements Iterator<AbstractP
     private HashMap<AbstractPart, Double> partsAPM;
 
     public AbstractPartIterator(AbstractPart start) {
-        Iterator<AbstractProduct> iterator = (Iterator<AbstractProduct>) start.getChildNodes().keySet().iterator();
+        Iterator<AbstractProduct> iterator = (Iterator<AbstractProduct>) start.getIngredients().keySet().iterator();
         stack.push(iterator);
     }
     public AbstractProduct next() {
@@ -15,8 +15,8 @@ public class AbstractPartIterator<AbstractProduct> implements Iterator<AbstractP
             Iterator<AbstractProduct> iterator = stack.peek();
             AbstractProduct product = iterator.next();
             if(product instanceof AbstractPart pro) {
-                if(!pro.getChildNodes().isEmpty()) {
-                    stack.push((Iterator<AbstractProduct>) pro.getChildNodes().keySet().iterator());
+                if(!pro.getIngredients().isEmpty()) {
+                    stack.push((Iterator<AbstractProduct>) pro.getIngredients().keySet().iterator());
                 }
             }
             return product;

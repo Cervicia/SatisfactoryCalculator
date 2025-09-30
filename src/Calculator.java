@@ -12,7 +12,8 @@ public class Calculator {
             AbstractPart target_part = (AbstractPart) target;
             double output_factor = rate/target.getApm();
             HashMap<AbstractProduct, Double> tempMap = new HashMap<>();
-            for(Map.Entry<AbstractProduct, Double> ingredient : target_part.getChildNodes().entrySet()) {
+            HashMap<AbstractProduct, Double> resolvedIngredients = target_part.resolveIngredients();
+            for(Map.Entry<AbstractProduct, Double> ingredient : resolvedIngredients.entrySet()) {
                 double normalInput = (ingredient.getValue()/target_part.getAmount())*target_part.getApm();
                 tempMap = mergeAPMMaps(tempMap ,getIngredientsAPM(ingredient.getKey(), normalInput*output_factor));
             }
