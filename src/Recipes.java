@@ -10,8 +10,13 @@ import java.util.Map;
 
 public class Recipes {
     public static Map<String, AbstractProduct> recipes;
+    public static Map<String, AbstractProduct> alternativeRecipes;
 
-    public Recipes(HashMap<AbstractPart, Boolean> alternativeRecipesUsed) {
+    private final Map<String, AbstractProduct> defaultRecipes;
+
+    public Recipes() {
+
+        alternativeRecipes = new HashMap<>();
         RuntimeTypeAdapterFactory<AbstractProduct> productAdapterFactory =
                 RuntimeTypeAdapterFactory.of(AbstractProduct.class, "type")
                         .registerSubtype(BaseIngredientOre .class, "baseIngredientOre")
@@ -26,17 +31,30 @@ public class Recipes {
                     .create();
             Type mapType2 = new TypeToken<Map<String, AbstractProduct>>(){}.getType();
             recipes = gson.fromJson(reader, mapType2);
-            checkAlternativeRecipes(alternativeRecipesUsed);
+            for(Map.Entry<String, AbstractProduct> entry : recipes.entrySet()) {
+                if(entry.getValue() instanceof AbstractPart) {
+                    if(!((AbstractPart) entry.getValue()).getAlternativeOf().equals(entry.getKey()) ) {
+                        alternativeRecipes.put(entry.getKey(), entry.getValue());
+                        recipes.remove(entry.getKey());
+                    }
+                }
+            }
+
             System.out.println(recipes);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        defaultRecipes = recipes;
+
     }
     public void checkAlternativeRecipes(HashMap<AbstractPart, Boolean> alternativeRecipesUsed) {
         for (Map.Entry<AbstractPart, Boolean> entry : alternativeRecipesUsed.entrySet()) {
             if(entry.getValue()) {
-                AbstractPart target = (AbstractPart) Recipes.recipes.get(entry.getKey().getAlternativeOf());
+                AbstractPart target = (AbstractPart) Recipes.alternativeRecipes.get(entry.getKey().getAlternativeOf());
                 target.setIngredients(entry.getKey().getIngredients());
+            } else {
+                AbstractPart target = (AbstractPart) Recipes.alternativeRecipes.get(entry.getKey().getAlternativeOf());
+                target.setIngredients(((AbstractPart)defaultRecipes.get(target.getName())).getIngredients());
             }
         }
     }

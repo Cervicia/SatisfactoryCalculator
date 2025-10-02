@@ -33,7 +33,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
 
-        Recipes instance = new Recipes(new HashMap<>());
+        Recipes instance = new Recipes();
         System.out.println(Recipes.recipes);
         //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
         // to see how IntelliJ IDEA suggests fixing it.

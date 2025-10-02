@@ -2,15 +2,25 @@
 import com.brunomnsilva.smartgraph.containers.SmartGraphDemoContainer;
 import com.brunomnsilva.smartgraph.graph.*;
 import com.brunomnsilva.smartgraph.graphview.*;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-
-import javafx.scene.control.TextField;
+import javafx.collections.ListChangeListener;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.layout.Pane;
 
+import javafx.scene.layout.VBox;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.controlsfx.control.SearchableComboBox;
+import java.util.stream.Collectors;
+import javafx.geometry.Insets;
+
 
 import java.util.*;
 
@@ -25,6 +35,10 @@ public class SceneController {
     private SearchableComboBox searchBar;
     @FXML
     private TextField rateInput;
+    @FXML
+    private MenuButton searchButton;
+
+
 
     public void up(ActionEvent actionEvent) {
         System.out.println("up");
@@ -38,6 +52,73 @@ public class SceneController {
         buildIngredientsGraph(Recipes.recipes.get("Reinforced Iron Plate"), 1);
 
         searchBar.setItems(FXCollections.observableArrayList(Recipes.recipes.keySet()));
+
+        final ObservableList<String> allItems = FXCollections.observableArrayList(Recipes.alternativeRecipes.keySet());
+
+        TextField searchField = new TextField();
+        searchField.setPromptText("Search...");
+
+        final ObservableList<String> checkedItems = FXCollections.observableArrayList();
+        FilteredList<String> filteredItems = new FilteredList<>(allItems, p -> true);
+
+        searchField.textProperty().addListener((obs, oldVal, newVal) -> {
+            filteredItems.setPredicate(item -> {
+                if (newVal == null || newVal.isEmpty()) {
+                    return true;
+                }
+                return item.toLowerCase().contains(newVal.toLowerCase());
+            });
+        });
+
+        ListView<String> listView = new ListView<>(filteredItems);
+        listView.setPrefHeight(150);
+        listView.setPrefWidth(100);
+
+        listView.setCellFactory(CheckBoxListCell.forListView(item -> {
+            // Create a property to represent the checked state
+            BooleanProperty checked = new SimpleBooleanProperty(checkedItems.contains(item));
+
+            // Add a listener to the property. When the checkbox is clicked,
+            // this listener will be notified.
+            checked.addListener((obs, wasChecked, isNowChecked) -> {
+                if (isNowChecked) {
+                    // If the box is checked, add the item to our master list
+                    if (!checkedItems.contains(item)) {
+                        checkedItems.add(item);
+                    }
+                } else {
+                    // If the box is unchecked, remove the item
+                    checkedItems.remove(item);
+                }
+            });
+
+            // Return the property to the cell
+            return checked;
+        }));
+
+        checkedItems.addListener((ListChangeListener<String>) c -> {
+            // REFRESH the ListView to show programmatic changes
+            listView.refresh();
+
+            // Update the button text
+            if (checkedItems.isEmpty()) {
+                searchButton.setText("Select Items...");
+            } else {
+                // Sort for consistent display order
+                searchButton.setText(checkedItems.stream().sorted().collect(Collectors.joining(", ")));
+            }
+        });
+
+
+
+        VBox popupContent = new VBox(2, searchField, listView);
+        popupContent.setPadding(new Insets(2));
+        CustomMenuItem customMenuItem = new CustomMenuItem(popupContent);
+        customMenuItem.setHideOnClick(false);
+        searchButton.getItems().add(customMenuItem);
+
+
+
 
         SmartPlacementStrategy initialPlacement = new SmartCircularSortedPlacementStrategy();
         ForceDirectedLayoutStrategy<String> automaticPlacementStrategy = new ForceDirectedSpringGravityLayoutStrategy<>();
