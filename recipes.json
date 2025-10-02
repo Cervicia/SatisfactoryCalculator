@@ -1,0 +1,81 @@
+{
+  "Reinforced Iron Plate": {
+    "type": "partAssembler",
+    "ingredients": {
+      "Iron Plate": 6.0,
+      "Screw": 12.0
+    },
+    "alternativeOf": "Reinforced Iron Plate",
+    "wp": 55.09,
+    "apm": 5.0,
+    "amount": 1.0,
+    "name": "Reinforced Iron Plate"
+  },
+  "Iron Plate": {
+    "type": "partConstructor",
+    "ingredients": {
+      "Iron Ingot": 3.0
+    },
+    "alternativeOf": "Iron Plate",
+    "wp": 6.89,
+    "apm": 20.0,
+    "amount": 2.0,
+    "name": "Iron Plate"
+  },
+  "Iron Ingot": {
+    "type": "partSmelter",
+    "ingredients": {
+      "Iron Ore": 1.0
+    },
+    "alternativeOf": "Iron Ingot",
+    "wp": 8.53,
+    "apm": 30.0,
+    "amount": 1.0,
+    "name": "Iron Ingot"
+  },
+  "Screw": {
+    "type": "partConstructor",
+    "ingredients": {
+      "Iron Rod": 1.0
+    },
+    "alternativeOf": "Screw",
+    "wp": 1.15,
+    "apm": 40.0,
+    "amount": 4.0,
+    "name": "Screw"
+  },
+  "Limestone": {
+    "type": "baseIngredientOre",
+    "apm": 240.0,
+    "amount": 1.0,
+    "name": "Limestone"
+  },
+  "Iron Ore": {
+    "type": "baseIngredientOre",
+    "apm": 240.0,
+    "amount": 1.0,
+    "name": "Iron Ore"
+  },
+  "Iron Rod": {
+    "type": "partConstructor",
+    "ingredients": {
+      "Iron Ingot": 1.0
+    },
+    "alternativeOf": "Iron Rod",
+    "wp": 4.59,
+    "apm": 15.0,
+    "amount": 1.0,
+    "name": "Iron Rod"
+  },
+  "Cast Screw": {
+    "type": "partConstructor",
+    "ingredients": {
+      "Iron Ingot": 5.0
+    },
+    "alternativeOf": "Screw",
+    "wp": 1.15,
+    "apm": 50.0,
+    "amount": 20.0,
+    "name": "Cast Screw"
+  }
+}

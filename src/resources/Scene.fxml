@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import org.controlsfx.control.SearchableComboBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="761.0" prefWidth="1214.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SceneController">
+    <children>
+      <Pane fx:id="graphContainer" layoutX="257.0" layoutY="2.0" prefHeight="696.0" prefWidth="941.0" />
+      <Label layoutX="22.0" layoutY="84.0" text="Search for Product">
+         <font>
+            <Font name="Arial" size="22.0" />
+         </font>
+      </Label>
+      <SearchableComboBox fx:id="searchBar" layoutX="27.0" layoutY="122.0" onAction="#selectProduct" />
+      <TextField fx:id="rateInput" layoutX="114.0" layoutY="168.0" onAction="#selectProduct" prefHeight="25.0" prefWidth="59.0" />
+      <Label layoutX="34.0" layoutY="167.0" text="Rate:">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="22.0" layoutY="216.0" text="Alternative Recipes:">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <MenuButton fx:id="searchButton" layoutX="27.0" layoutY="250.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="214.0" text="Select Items..." />
+    </children>
+</AnchorPane>
