@@ -19,6 +19,6 @@ public class PartConstructor extends AbstractPart{
         }
     }
     public String toString() {
-        return "Name: " + this.name;
+        return this.getClass().getSimpleName() + " " + this.name;
     }
 }
