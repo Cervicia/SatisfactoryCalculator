@@ -18,4 +18,12 @@ public abstract class AbstractProduct {
     public String getName() {
         return name;
     }
+
+    public void setApm(double apm) {
+        this.apm = apm;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
 }

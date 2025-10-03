@@ -6,13 +6,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class Recipes {
     public static Map<String, AbstractProduct> recipes;
-    public static Map<String, AbstractProduct> alternativeRecipes;
+    public static Map<String, AbstractPart> alternativeRecipes;
 
-    private final Map<String, AbstractProduct> defaultRecipes;
+    private static final Map<String, AbstractProduct> defaultRecipes = new HashMap<>();
 
     public Recipes() {
 
@@ -25,16 +27,26 @@ public class Recipes {
                         .registerSubtype(PartAssembler.class, "partAssembler");
 
         try (FileReader reader = new FileReader("recipes.json")) {
+
             Gson gson = new GsonBuilder()
                     .registerTypeAdapterFactory(productAdapterFactory)
                     .setPrettyPrinting()
                     .create();
             Type mapType2 = new TypeToken<Map<String, AbstractProduct>>(){}.getType();
             recipes = gson.fromJson(reader, mapType2);
+
+            FileReader reader2 = new FileReader("recipes.json");
+            Gson gson2 = new GsonBuilder()
+                    .registerTypeAdapterFactory(productAdapterFactory)
+                    .setPrettyPrinting()
+                    .create();
+            Map<String, AbstractProduct> recipes2 = gson2.fromJson(reader2, mapType2);
+            defaultRecipes.putAll(recipes2);
+
             for(Map.Entry<String, AbstractProduct> entry : recipes.entrySet()) {
                 if(entry.getValue() instanceof AbstractPart) {
                     if(!((AbstractPart) entry.getValue()).getAlternativeOf().equals(entry.getKey()) ) {
-                        alternativeRecipes.put(entry.getKey(), entry.getValue());
+                        alternativeRecipes.put(entry.getKey(), (AbstractPart) entry.getValue());
                         recipes.remove(entry.getKey());
                     }
                 }
@@ -44,18 +56,28 @@ public class Recipes {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        defaultRecipes = recipes;
-
     }
-    public void checkAlternativeRecipes(HashMap<AbstractPart, Boolean> alternativeRecipesUsed) {
-        for (Map.Entry<AbstractPart, Boolean> entry : alternativeRecipesUsed.entrySet()) {
-            if(entry.getValue()) {
-                AbstractPart target = (AbstractPart) Recipes.alternativeRecipes.get(entry.getKey().getAlternativeOf());
-                target.setIngredients(entry.getKey().getIngredients());
-            } else {
-                AbstractPart target = (AbstractPart) Recipes.alternativeRecipes.get(entry.getKey().getAlternativeOf());
-                target.setIngredients(((AbstractPart)defaultRecipes.get(target.getName())).getIngredients());
+    public static void checkAlternativeRecipes(List<String> alternativeRecipesUsed) {
+
+        for(Map.Entry<String, AbstractProduct> entry : recipes.entrySet()) {
+            if(entry.getValue() instanceof AbstractPart) {
+                AbstractPart changedPart = (AbstractPart) entry.getValue();
+                AbstractPart defaultPart = (AbstractPart) defaultRecipes.get(entry.getKey());
+
+                changedPart.setIngredients(defaultPart.getIngredients());
+                changedPart.setApm(defaultPart.getApm());
+                changedPart.setAmount(defaultPart.getAmount());
             }
         }
+        for (String entry : alternativeRecipesUsed) {
+            AbstractPart alternativePart = alternativeRecipes.get(entry);
+            String alternativeOf = alternativeRecipes.get(entry).getAlternativeOf();
+            AbstractPart changedPart =(AbstractPart)recipes.get(alternativeOf);
+
+            changedPart.setIngredients(alternativePart.getIngredients());
+            changedPart.setApm(alternativePart.getApm());
+            changedPart.setAmount(alternativePart.getAmount());
+        }
+
     }
 }

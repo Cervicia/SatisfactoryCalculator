@@ -26,8 +26,9 @@ import java.util.*;
 
 public class SceneController {
 
-    SmartGraphPanel<String, String> graphView;
-    Digraph<String, String> g;
+    SmartGraphPanel<VertexWrapper, String> graphView;
+    Digraph<VertexWrapper, String> g;
+    private Vertex<VertexWrapper> targetVertex;
 
     @FXML
     private Pane graphContainer;
@@ -47,9 +48,14 @@ public class SceneController {
     @FXML
     public void initialize() {
 
+
+
         g = new DigraphEdgeList<>();
+        SmartPlacementStrategy initialPlacement = new SmartCircularSortedPlacementStrategy();
+        ForceDirectedLayoutStrategy<VertexWrapper> automaticPlacementStrategy = new ForceDirectedSpringGravityLayoutStrategy<>();
 
         buildIngredientsGraph(Recipes.recipes.get("Reinforced Iron Plate"), 1);
+        graphView = new SmartGraphPanel<VertexWrapper, String>(g, initialPlacement, automaticPlacementStrategy);
 
         searchBar.setItems(FXCollections.observableArrayList(Recipes.recipes.keySet()));
 
@@ -100,6 +106,8 @@ public class SceneController {
             // REFRESH the ListView to show programmatic changes
             listView.refresh();
 
+            Recipes.checkAlternativeRecipes(checkedItems.sorted());
+            selectProduct(null);
             // Update the button text
             if (checkedItems.isEmpty()) {
                 searchButton.setText("Select Items...");
@@ -120,10 +128,7 @@ public class SceneController {
 
 
 
-        SmartPlacementStrategy initialPlacement = new SmartCircularSortedPlacementStrategy();
-        ForceDirectedLayoutStrategy<String> automaticPlacementStrategy = new ForceDirectedSpringGravityLayoutStrategy<>();
 
-        graphView = new SmartGraphPanel<>(g, initialPlacement, automaticPlacementStrategy);
 
 
 
@@ -131,9 +136,7 @@ public class SceneController {
         After creating, you can change the styling of some element.
         This can be done at any time afterwards.
         */
-        //if (g.numVertices() > 0) {
-        //    graphView.getStylableVertex("PartAssembler Reinforced Iron Plate").setStyleInline("-fx-fill: gold; -fx-stroke: brown;");
-        //}
+
 
 
         //Scene scene = new Scene(new SmartGraphDemoContainer(graphView), 1024, 768);
@@ -152,7 +155,7 @@ public class SceneController {
         /*
         Bellow you can see how to attach actions for when vertices and edges are double-clicked
          */
-        graphView.setVertexDoubleClickAction((SmartGraphVertex<String> graphVertex) -> {
+        graphView.setVertexDoubleClickAction((SmartGraphVertex<VertexWrapper> graphVertex) -> {
             System.out.println("Vertex contains element: " + graphVertex.getUnderlyingVertex().element());
 
             //toggle different styling
@@ -181,30 +184,50 @@ public class SceneController {
             for(Edge e : g.edges()) {
                 g.removeEdge(e);
             }
+            Vertex<VertexWrapper> target;
             if(rateInput.getText() != null && NumberUtils.isParsable(rateInput.getText())) {
-                buildIngredientsGraph(Recipes.recipes.get(searchBar.getValue()), Integer.parseInt(rateInput.getText()));
+                target = buildIngredientsGraph(Recipes.recipes.get(searchBar.getValue()), Integer.parseInt(rateInput.getText()));
+                //graphView.update();
+                //graphView.getStylableVertex(t).setStyleInline("-fx-fill: gold; -fx-stroke: brown;");
+
             } else {
-                buildIngredientsGraph(Recipes.recipes.get(searchBar.getValue()), 1);
+                target = buildIngredientsGraph(Recipes.recipes.get(searchBar.getValue()), 1);
             }
 
+
             graphView.update();
+            final Vertex<VertexWrapper> finalTarget = target;
+            javafx.application.Platform.runLater(() -> {
+                SmartStylableNode stylableView = graphView.getStylableVertex(finalTarget);
+                if (stylableView != null) {
+                    stylableView.setStyleInline("-fx-fill: gold; -fx-stroke: brown;");
+                } else {
+                    // This might happen if the graph is cleared again before this code runs
+                    System.err.println("Could not find the stylable vertex for: " + finalTarget.element());
+                }
+            });
         }
-
-
     }
 
-    private void buildIngredientsGraph(AbstractProduct target, double rate) {
+    private Vertex<VertexWrapper> buildIngredientsGraph(AbstractProduct target, double rate) {
         Calculator calculator = new Calculator();
-
+        Vertex<VertexWrapper> returnvertex = null;
         HashMap<AbstractProduct, Double> verticesAmount = calculator.getIngredientsAPM(target, rate);
         HashMap<AbstractProduct, Double> buildingsAmount = calculator.getBuildingCount(target, rate);
         HashMap<AbstractProduct, VertexWrapper> vertices = new HashMap<>();
 
         for (Map.Entry<AbstractProduct, Double> entry : verticesAmount.entrySet()) {
+
             VertexWrapper vertex = new VertexWrapper(entry.getKey(), entry.getValue(), buildingsAmount.get(entry.getKey()));
+
             vertices.put(entry.getKey(), vertex);
-            g.insertVertex(vertex.toString());
+            Vertex<VertexWrapper>realvertex = g.insertVertex(vertex);
+            if (entry.getKey().equals(target)) {
+                //graphView.getStylableVertex(realvertex).setStyleInline("-fx-fill: gold; -fx-stroke: brown;");
+                returnvertex = realvertex;
+            }
         }
+
 
 
         addVerticesEdges(vertices,target, rate);
@@ -230,6 +253,7 @@ public class SceneController {
 
         //yep, its a loop!
         g.insertEdge("A", "A", "Loop");*/
+        return returnvertex;
     }
     private void addVerticesEdges(HashMap<AbstractProduct,VertexWrapper> vertices,AbstractProduct target, double rate) {
 
@@ -262,7 +286,7 @@ public class SceneController {
                     // Calculate the actual required rate for this ingredient and push it to the stack.
                     double requiredIngredientRate = normalInput * outputFactor;
                     productsToProcess.push(new ProductRatePair(ingredient, requiredIngredientRate));
-                    g.insertEdge(vertices.get(targetPart).toString(), vertices.get(ingredient).toString() , requiredIngredientRate + "/min" + i);
+                    g.insertEdge(vertices.get(targetPart), vertices.get(ingredient), requiredIngredientRate + "/min" + i);
                 }
             }
         }

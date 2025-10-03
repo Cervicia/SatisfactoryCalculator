@@ -57,4 +57,5 @@ public abstract class AbstractPart extends AbstractProduct{
     public void setIngredients(HashMap<String, Double> ingredients) {
         this.ingredients = ingredients;
     }
+
 }
