@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact name="satiscalculator:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/satiscalculator_jar</output-path>
+    <root id="root">
+      <element id="archive" name="satiscalculator.jar">
+        <element id="module-output" name="satiscalculator" />
+      </element>
+      <element id="library" level="project" name="googlecode.json.simple" />
+      <element id="library" level="module" name="JavaFX" module-name="satiscalculator" />
+      <element id="library" level="project" name="lib" />
+      <element id="library" level="project" name="danilopianini.gson.extras" />
+      <element id="library" level="project" name="brunomnsilva.smartgraph" />
+      <element id="library" level="project" name="google.code.gson" />
+    </root>
+  </artifact>
+</component>
