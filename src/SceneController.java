@@ -264,7 +264,6 @@ public class SceneController {
         int i = 0;
         while (!productsToProcess.isEmpty()) {
 
-            i++;
             ProductRatePair current = productsToProcess.pop();
             AbstractProduct currentProduct = current.product();
             double currentRate = current.rate();
@@ -287,6 +286,7 @@ public class SceneController {
                     double requiredIngredientRate = normalInput * outputFactor;
                     productsToProcess.push(new ProductRatePair(ingredient, requiredIngredientRate));
                     g.insertEdge(vertices.get(targetPart), vertices.get(ingredient), requiredIngredientRate + "/min" + i);
+                    i++;
                 }
             }
         }

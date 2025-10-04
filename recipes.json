@@ -1,4 +1,10 @@
 {
+  "Water": {
+    "type": "baseIngredientOre",
+    "apm": 1200.0,
+    "amount": 1.0,
+    "name": "Water"
+  },
   "Reinforced Iron Plate": {
     "type": "partAssembler",
     "ingredients": {
@@ -11,6 +17,123 @@
     "amount": 1.0,
     "name": "Reinforced Iron Plate"
   },
+  "Supercomputer": {
+    "type": "partManufacturer",
+    "ingredients": {
+      "AI Limiter": 2.0,
+      "Computer": 4.0,
+      "Plastic": 28.0,
+      "High Speed Connector": 3.0
+    },
+    "alternativeOf": "Supercomputer",
+    "wp": 30.8,
+    "apm": 1.875,
+    "amount": 1.0,
+    "name": "Supercomputer"
+  },
+  "Aluminium Casing": {
+    "type": "partConstructor",
+    "ingredients": {
+      "Aluminium Ingot": 3.0
+    },
+    "alternativeOf": "Aluminium Casing",
+    "wp": 1.15,
+    "apm": 60.0,
+    "amount": 2.0,
+    "name": "Aluminium Casing"
+  },
+  "Limestone": {
+    "type": "baseIngredientOre",
+    "apm": 240.0,
+    "amount": 1.0,
+    "name": "Limestone"
+  },
+  "Copper Ore": {
+    "type": "baseIngredientOre",
+    "apm": 240.0,
+    "amount": 1.0,
+    "name": "Copper Ore"
+  },
+  "Biomass": {
+    "type": "partConstructor",
+    "ingredients": {
+      "Leaves": 10.0
+    },
+    "alternativeOf": "Biomass",
+    "wp": 1.15,
+    "apm": 60.0,
+    "amount": 5.0,
+    "name": "Biomass"
+  },
+  "Alumina Solution": {
+    "type": "partRefinery",
+    "ingredients": {
+      "Water": 18.0,
+      "Bauxite": 12.0
+    },
+    "alternativeOf": "Alumina Solution",
+    "wp": 1.15,
+    "apm": 120.0,
+    "amount": 12.0,
+    "name": "Alumina Solution"
+  },
+  "Aluminium Scrap": {
+    "type": "partRefinery",
+    "ingredients": {
+      "Coal": 2.0,
+      "Alumina Solution": 4.0
+    },
+    "alternativeOf": "Aluminium Scrap",
+    "wp": 1.15,
+    "apm": 360.0,
+    "amount": 6.0,
+    "name": "Aluminium Scrap"
+  },
+  "Wire": {
+    "type": "partConstructor",
+    "ingredients": {
+      "Copper Ingot": 1.0
+    },
+    "alternativeOf": "Wire",
+    "wp": 1.15,
+    "apm": 30.0,
+    "amount": 2.0,
+    "name": "Wire"
+  },
+  "Versatile Framework": {
+    "type": "partAssembler",
+    "ingredients": {
+      "Modular Frame": 1.0,
+      "Steel Beam": 12.0
+    },
+    "alternativeOf": "Versatile Framework",
+    "wp": 55.09,
+    "apm": 5.0,
+    "amount": 2.0,
+    "name": "Versatile Framework"
+  },
+  "Silica": {
+    "type": "partConstructor",
+    "ingredients": {
+      "Raw Quartz": 3.0
+    },
+    "alternativeOf": "Silica",
+    "wp": 1.15,
+    "apm": 37.5,
+    "amount": 5.0,
+    "name": "Silica"
+  },
+  "Steel Beam": {
+    "type": "partConstructor",
+    "ingredients": {
+      "Steel Ingot": 4.0
+    },
+    "alternativeOf": "Steel Beam",
+    "wp": 1.15,
+    "apm": 15.0,
+    "amount": 1.0,
+    "name": "Steel Beam"
+  },
   "Iron Plate": {
     "type": "partConstructor",
     "ingredients": {
@@ -21,6 +144,102 @@
     "apm": 20.0,
     "amount": 2.0,
     "name": "Iron Plate"
+  },
+  "Steel Pipe": {
+    "type": "partConstructor",
+    "ingredients": {
+      "Steel Ingot": 3.0
+    },
+    "alternativeOf": "Steel Pipe",
+    "wp": 1.15,
+    "apm": 20.0,
+    "amount": 2.0,
+    "name": "Steel Pipe"
+  },
+  "Bauxite": {
+    "type": "baseIngredientOre",
+    "apm": 240.0,
+    "amount": 1.0,
+    "name": "Bauxite"
+  },
+  "Empty Canister": {
+    "type": "partConstructor",
+    "ingredients": {
+      "Plastic": 2.0
+    },
+    "alternativeOf": "Empty Canister",
+    "wp": 1.15,
+    "apm": 60.0,
+    "amount": 4.0,
+    "name": "Empty Canister"
+  },
+  "AI Limiter": {
+    "type": "partAssembler",
+    "ingredients": {
+      "Quickwire": 20.0,
+      "Copper Sheet": 5.0
+    },
+    "alternativeOf": "AI Limiter",
+    "wp": 55.09,
+    "apm": 5.0,
+    "amount": 1.0,
+    "name": "AI Limiter"
+  },
+  "Coal": {
+    "type": "baseIngredientOre",
+    "apm": 240.0,
+    "amount": 1.0,
+    "name": "Coal"
+  },
+  "Computer": {
+    "type": "partManufacturer",
+    "ingredients": {
+      "Cable": 8.0,
+      "Circuit Board": 4.0,
+      "Plastic": 16.0
+    },
+    "alternativeOf": "Computer",
+    "wp": 30.8,
+    "apm": 2.5,
+    "amount": 1.0,
+    "name": "Computer"
+  },
+  "Encased Industrial Beam": {
+    "type": "partAssembler",
+    "ingredients": {
+      "Concrete": 6.0,
+      "Steel Beam": 3.0
+    },
+    "alternativeOf": "Encased Industrial Beam",
+    "wp": 55.09,
+    "apm": 6.0,
+    "amount": 1.0,
+    "name": "Encased Industrial Beam"
+  },
+  "Turbo Motor": {
+    "type": "partManufacturer",
+    "ingredients": {
+      "Cooling System": 4.0,
+      "Motor": 4.0,
+      "Radio Control Unit": 2.0,
+      "Rubber": 24.0
+    },
+    "alternativeOf": "Turbo Motor",
+    "wp": 30.8,
+    "apm": 1.875,
+    "amount": 1.0,
+    "name": "Turbo Motor"
+  },
+  "Empty Fluid Tank": {
+    "type": "partConstructor",
+    "ingredients": {
+      "Aluminium Ingot": 1.0
+    },
+    "alternativeOf": "Empty Fluid Tank",
+    "wp": 1.15,
+    "apm": 60.0,
+    "amount": 1.0,
+    "name": "Empty Fluid Tank"
   },
   "Iron Ingot": {
     "type": "partSmelter",
@@ -33,28 +252,17 @@
     "amount": 1.0,
     "name": "Iron Ingot"
   },
-  "Screw": {
-    "type": "partConstructor",
+  "Motor": {
+    "type": "partAssembler",
     "ingredients": {
-      "Iron Rod": 1.0
+      "Stator": 2.0,
+      "Rotor": 2.0
     },
-    "alternativeOf": "Screw",
-    "wp": 1.15,
-    "apm": 40.0,
-    "amount": 4.0,
-    "name": "Screw"
-  },
-  "Limestone": {
-    "type": "baseIngredientOre",
-    "apm": 240.0,
+    "alternativeOf": "Motor",
+    "wp": 55.09,
+    "apm": 5.0,
     "amount": 1.0,
-    "name": "Limestone"
-  },
-  "Iron Ore": {
-    "type": "baseIngredientOre",
-    "apm": 240.0,
-    "amount": 1.0,
-    "name": "Iron Ore"
+    "name": "Motor"
   },
   "Iron Rod": {
     "type": "partConstructor",
@@ -67,15 +275,447 @@
     "amount": 1.0,
     "name": "Iron Rod"
   },
-  "Cast Screw": {
+  "Modular Frame": {
+    "type": "partAssembler",
+    "ingredients": {
+      "Reinforced Iron Plate": 3.0,
+      "Iron Rod": 12.0
+    },
+    "alternativeOf": "Modular Frame",
+    "wp": 55.09,
+    "apm": 2.0,
+    "amount": 2.0,
+    "name": "Modular Frame"
+  },
+  "High Speed Connector": {
+    "type": "partManufacturer",
+    "ingredients": {
+      "Cable": 10.0,
+      "Circuit Board": 1.0,
+      "Quickwire": 56.0
+    },
+    "alternativeOf": "High Speed Connector",
+    "wp": 30.8,
+    "apm": 3.75,
+    "amount": 1.0,
+    "name": "High Speed Connector"
+  },
+  "Cooling System": {
+    "type": "partBlender",
+    "ingredients": {
+      "Water": 5.0,
+      "Nitrogen Gas": 25.0,
+      "Rubber": 2.0,
+      "Heat Sink": 2.0
+    },
+    "alternativeOf": "Cooling System",
+    "wp": 70.34,
+    "apm": 6.0,
+    "amount": 1.0,
+    "name": "Cooling System"
+  },
+  "Reanimated SAM": {
     "type": "partConstructor",
     "ingredients": {
-      "Iron Ingot": 5.0
+      "SAM": 4.0
+    },
+    "alternativeOf": "Reanimated SAM",
+    "wp": 1.15,
+    "apm": 30.0,
+    "amount": 1.0,
+    "name": "Reanimated SAM"
+  },
+  "Adaptive Control Unit": {
+    "type": "partManufacturer",
+    "ingredients": {
+      "Automated Wiring": 5.0,
+      "Circuit Board": 5.0,
+      "Heavy Modular Frame": 1.0,
+      "Computer": 2.0
+    },
+    "alternativeOf": "Adaptive Control Unit",
+    "wp": 30.8,
+    "apm": 1.0,
+    "amount": 1.0,
+    "name": "Adaptive Control Unit"
+  },
+  "Concrete": {
+    "type": "partConstructor",
+    "ingredients": {
+      "Limestone": 3.0
+    },
+    "alternativeOf": "Concrete",
+    "wp": 1.15,
+    "apm": 15.0,
+    "amount": 1.0,
+    "name": "Concrete"
+  },
+  "Modular Engine": {
+    "type": "partManufacturer",
+    "ingredients": {
+      "Smart Plating": 2.0,
+      "Motor": 2.0,
+      "Rubber": 15.0
+    },
+    "alternativeOf": "Modular Engine",
+    "wp": 30.8,
+    "apm": 1.0,
+    "amount": 1.0,
+    "name": "Modular Engine"
+  },
+  "Fabric": {
+    "type": "partAssembler",
+    "ingredients": {
+      "Mycelia": 1.0,
+      "Biomass": 5.0
+    },
+    "alternativeOf": "Fabric",
+    "wp": 55.09,
+    "apm": 15.0,
+    "amount": 1.0,
+    "name": "Fabric"
+  },
+  "SAM": {
+    "type": "baseIngredientOre",
+    "apm": 240.0,
+    "amount": 1.0,
+    "name": "SAM"
+  },
+  "Cable": {
+    "type": "partConstructor",
+    "ingredients": {
+      "Wire": 2.0
+    },
+    "alternativeOf": "Cable",
+    "wp": 1.15,
+    "apm": 30.0,
+    "amount": 1.0,
+    "name": "Cable"
+  },
+  "Copper Powder": {
+    "type": "partConstructor",
+    "ingredients": {
+      "Copper Ingot": 30.0
+    },
+    "alternativeOf": "Copper Powder",
+    "wp": 1.15,
+    "apm": 50.0,
+    "amount": 5.0,
+    "name": "Copper Powder"
+  },
+  "Quart Crystal": {
+    "type": "partConstructor",
+    "ingredients": {
+      "Raw Quartz": 5.0
+    },
+    "alternativeOf": "Quart Crystal",
+    "wp": 1.15,
+    "apm": 22.5,
+    "amount": 3.0,
+    "name": "Quart Crystal"
+  },
+  "Iron Ore": {
+    "type": "baseIngredientOre",
+    "apm": 240.0,
+    "amount": 1.0,
+    "name": "Iron Ore"
+  },
+  "Mycelia": {
+    "type": "baseIngredientOre",
+    "apm": 10.0,
+    "amount": 1.0,
+    "name": "Mycelia"
+  },
+  "Plastic": {
+    "type": "partRefinery",
+    "ingredients": {
+      "Crude Oil": 3.0
+    },
+    "alternativeOf": "Plastic",
+    "wp": 1.15,
+    "apm": 20.0,
+    "amount": 2.0,
+    "name": "Plastic"
+  },
+  "Steel Ingot": {
+    "type": "partFoundry",
+    "ingredients": {
+      "Coal": 3.0,
+      "Iron Ore": 3.0
+    },
+    "alternativeOf": "Steel Ingot",
+    "wp": 1.15,
+    "apm": 45.0,
+    "amount": 3.0,
+    "name": "Steel Ingot"
+  },
+  "Leaves": {
+    "type": "baseIngredientOre",
+    "apm": 10.0,
+    "amount": 1.0,
+    "name": "Leaves"
+  },
+  "Smart Plating": {
+    "type": "partAssembler",
+    "ingredients": {
+      "Reinforced Iron Plate": 1.0,
+      "Rotor": 1.0
+    },
+    "alternativeOf": "Smart Plating",
+    "wp": 55.09,
+    "apm": 2.0,
+    "amount": 1.0,
+    "name": "Smart Plating"
+  },
+  "Crystal Oscillator": {
+    "type": "partManufacturer",
+    "ingredients": {
+      "Cable": 28.0,
+      "Reinforced Iron Plate": 5.0,
+      "Quart Crystal": 36.0
+    },
+    "alternativeOf": "Crystal Oscillator",
+    "wp": 30.8,
+    "apm": 1.0,
+    "amount": 2.0,
+    "name": "Crystal Oscillator"
+  },
+  "Uranium": {
+    "type": "baseIngredientOre",
+    "apm": 240.0,
+    "amount": 1.0,
+    "name": "Uranium"
+  },
+  "Automated Wiring": {
+    "type": "partAssembler",
+    "ingredients": {
+      "Cable": 20.0,
+      "Stator": 1.0
+    },
+    "alternativeOf": "Automated Wiring",
+    "wp": 55.09,
+    "apm": 2.5,
+    "amount": 1.0,
+    "name": "Automated Wiring"
+  },
+  "Alclad Aluminium Sheet": {
+    "type": "partAssembler",
+    "ingredients": {
+      "Copper Ingot": 1.0,
+      "Aluminium Ingot": 3.0
+    },
+    "alternativeOf": "Alclad Aluminium Sheet",
+    "wp": 55.09,
+    "apm": 30.0,
+    "amount": 3.0,
+    "name": "Alclad Aluminium Sheet"
+  },
+  "Quickwire": {
+    "type": "partConstructor",
+    "ingredients": {
+      "Caterium Ingot": 1.0
+    },
+    "alternativeOf": "Quickwire",
+    "wp": 1.15,
+    "apm": 60.0,
+    "amount": 5.0,
+    "name": "Quickwire"
+  },
+  "Nitrogen Gas": {
+    "type": "baseIngredientOre",
+    "apm": 240.0,
+    "amount": 1.0,
+    "name": "Nitrogen Gas"
+  },
+  "Sulfur": {
+    "type": "baseIngredientOre",
+    "apm": 240.0,
+    "amount": 1.0,
+    "name": "Sulfur"
+  },
+  "Rubber": {
+    "type": "partRefinery",
+    "ingredients": {
+      "Crude Oil": 3.0
+    },
+    "alternativeOf": "Rubber",
+    "wp": 1.15,
+    "apm": 20.0,
+    "amount": 2.0,
+    "name": "Rubber"
+  },
+  "Circuit Board": {
+    "type": "partAssembler",
+    "ingredients": {
+      "Plastic": 4.0,
+      "Copper Sheet": 2.0
+    },
+    "alternativeOf": "Circuit Board",
+    "wp": 55.09,
+    "apm": 7.5,
+    "amount": 1.0,
+    "name": "Circuit Board"
+  },
+  "Stator": {
+    "type": "partAssembler",
+    "ingredients": {
+      "Steel Pipe": 3.0,
+      "Wire": 8.0
+    },
+    "alternativeOf": "Stator",
+    "wp": 55.09,
+    "apm": 5.0,
+    "amount": 1.0,
+    "name": "Stator"
+  },
+  "SAM Fluctuator": {
+    "type": "partManufacturer",
+    "ingredients": {
+      "Steel Pipe": 3.0,
+      "Reanimated SAM": 6.0,
+      "Wire": 5.0
+    },
+    "alternativeOf": "SAM Fluctuator",
+    "wp": 30.8,
+    "apm": 10.0,
+    "amount": 1.0,
+    "name": "SAM Fluctuator"
+  },
+  "Heavy Modular Frame": {
+    "type": "partManufacturer",
+    "ingredients": {
+      "Steel Pipe": 20.0,
+      "Screw": 120.0,
+      "Encased Industrial Beam": 5.0,
+      "Modular Frame": 5.0
+    },
+    "alternativeOf": "Heavy Modular Frame",
+    "wp": 30.8,
+    "apm": 2.0,
+    "amount": 1.0,
+    "name": "Heavy Modular Frame"
+  },
+  "Radio Control Unit": {
+    "type": "partManufacturer",
+    "ingredients": {
+      "Crystal Oscillator": 1.0,
+      "Aluminium Casing": 32.0,
+      "Computer": 2.0
+    },
+    "alternativeOf": "Radio Control Unit",
+    "wp": 30.8,
+    "apm": 2.5,
+    "amount": 2.0,
+    "name": "Radio Control Unit"
+  },
+  "Copper Ingot": {
+    "type": "partSmelter",
+    "ingredients": {
+      "Copper Ore": 1.0
+    },
+    "alternativeOf": "Copper Ingot",
+    "wp": 20.79,
+    "apm": 30.0,
+    "amount": 1.0,
+    "name": "Copper Ingot"
+  },
+  "Copper Sheet": {
+    "type": "partConstructor",
+    "ingredients": {
+      "Copper Ingot": 2.0
+    },
+    "alternativeOf": "Copper Sheet",
+    "wp": 1.15,
+    "apm": 10.0,
+    "amount": 1.0,
+    "name": "Copper Sheet"
+  },
+  "Raw Quartz": {
+    "type": "baseIngredientOre",
+    "apm": 240.0,
+    "amount": 1.0,
+    "name": "Raw Quartz"
+  },
+  "Rotor": {
+    "type": "partAssembler",
+    "ingredients": {
+      "Screw": 25.0,
+      "Iron Rod": 5.0
+    },
+    "alternativeOf": "Rotor",
+    "wp": 55.09,
+    "apm": 4.0,
+    "amount": 1.0,
+    "name": "Rotor"
+  },
+  "Heat Sink": {
+    "type": "partAssembler",
+    "ingredients": {
+      "Alclad Aluminium Sheet": 5.0,
+      "Copper Sheet": 3.0
+    },
+    "alternativeOf": "Heat Sink",
+    "wp": 55.09,
+    "apm": 7.5,
+    "amount": 1.0,
+    "name": "Heat Sink"
+  },
+  "Caterium Ingot": {
+    "type": "partSmelter",
+    "ingredients": {
+      "Caterium Ore": 3.0
+    },
+    "alternativeOf": "Caterium Ingot",
+    "wp": 163.04,
+    "apm": 15.0,
+    "amount": 1.0,
+    "name": "Caterium Ingot"
+  },
+  "Crude Oil": {
+    "type": "baseIngredientOre",
+    "apm": 240.0,
+    "amount": 1.0,
+    "name": "Crude Oil"
+  },
+  "Screw": {
+    "type": "partConstructor",
+    "ingredients": {
+      "Iron Rod": 1.0
     },
     "alternativeOf": "Screw",
     "wp": 1.15,
-    "apm": 50.0,
-    "amount": 20.0,
-    "name": "Cast Screw"
+    "apm": 40.0,
+    "amount": 4.0,
+    "name": "Screw"
+  },
+  "Black Powder": {
+    "type": "partAssembler",
+    "ingredients": {
+      "Coal": 1.0,
+      "Sulfur": 1.0
+    },
+    "alternativeOf": "Black Powder",
+    "wp": 55.09,
+    "apm": 30.0,
+    "amount": 2.0,
+    "name": "Black Powder"
+  },
+  "Caterium Ore": {
+    "type": "baseIngredientOre",
+    "apm": 240.0,
+    "amount": 1.0,
+    "name": "Caterium Ore"
+  },
+  "Aluminium Ingot": {
+    "type": "partFoundry",
+    "ingredients": {
+      "Aluminium Scrap": 6.0,
+      "Silica": 5.0
+    },
+    "alternativeOf": "Aluminium Ingot",
+    "wp": 1.15,
+    "apm": 60.0,
+    "amount": 4.0,
+    "name": "Aluminium Ingot"
   }
 }

@@ -5,10 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Recipes {
     public static Map<String, AbstractProduct> recipes;
@@ -19,12 +16,17 @@ public class Recipes {
     public Recipes() {
 
         alternativeRecipes = new HashMap<>();
+
         RuntimeTypeAdapterFactory<AbstractProduct> productAdapterFactory =
                 RuntimeTypeAdapterFactory.of(AbstractProduct.class, "type")
                         .registerSubtype(BaseIngredientOre .class, "baseIngredientOre")
                         .registerSubtype(PartSmelter.class, "partSmelter")
                         .registerSubtype(PartConstructor.class, "partConstructor")
-                        .registerSubtype(PartAssembler.class, "partAssembler");
+                        .registerSubtype(PartAssembler.class, "partAssembler")
+                        .registerSubtype(PartFoundry.class, "partFoundry")
+                        .registerSubtype(PartRefinery.class, "partRefinery")
+                        .registerSubtype(PartBlender.class, "partBlender")
+                        .registerSubtype(PartManufacturer.class, "partManufacturer");
 
         try (FileReader reader = new FileReader("recipes.json")) {
 
@@ -43,11 +45,14 @@ public class Recipes {
             Map<String, AbstractProduct> recipes2 = gson2.fromJson(reader2, mapType2);
             defaultRecipes.putAll(recipes2);
 
-            for(Map.Entry<String, AbstractProduct> entry : recipes.entrySet()) {
-                if(entry.getValue() instanceof AbstractPart) {
-                    if(!((AbstractPart) entry.getValue()).getAlternativeOf().equals(entry.getKey()) ) {
-                        alternativeRecipes.put(entry.getKey(), (AbstractPart) entry.getValue());
-                        recipes.remove(entry.getKey());
+            Iterator<Map.Entry<String, AbstractProduct>> iterator = recipes.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry<String, AbstractProduct> entry = iterator.next();
+                if (entry.getValue() instanceof AbstractPart) {
+                    AbstractPart part = (AbstractPart) entry.getValue();
+                    if (!part.getAlternativeOf().equals(entry.getKey())) {
+                        alternativeRecipes.put(entry.getKey(), part);
+                        iterator.remove();
                     }
                 }
             }

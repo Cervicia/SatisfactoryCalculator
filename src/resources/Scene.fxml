@@ -8,9 +8,9 @@
 <?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.SearchableComboBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="761.0" prefWidth="1214.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SceneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SceneController">
     <children>
-      <Pane fx:id="graphContainer" layoutX="257.0" layoutY="2.0" prefHeight="696.0" prefWidth="941.0" />
+      <Pane fx:id="graphContainer" layoutX="257.0" layoutY="2.0" prefHeight="1011.0" prefWidth="1660.0" />
       <Label layoutX="22.0" layoutY="84.0" text="Search for Product">
          <font>
             <Font name="Arial" size="22.0" />

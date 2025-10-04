@@ -33,12 +33,16 @@ public class Main extends Application {
 
     public static void main(String[] args) {
 
+        GenerateJson generateJson = new GenerateJson();
+
         Recipes instance = new Recipes();
 
         System.out.println(Recipes.recipes);
+
+
         //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
         // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        /*System.out.printf("Hello and welcome!");
         BaseIngredientOre ironOre = new BaseIngredientOre(1, 240, "Iron Ore");
         BaseIngredientOre limestone = new BaseIngredientOre(1, 240, "Limestone");
 
@@ -94,7 +98,7 @@ public class Main extends Application {
         Calculator calculator = new Calculator();
         System.out.println(calculator.getIngredientsAPM(reinforcedIronPlate, 10));
         System.out.println(calculator.getBuildingCount(reinforcedIronPlate, 10));
-
+        */
         launch(args);
     }
 
