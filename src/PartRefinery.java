@@ -6,7 +6,7 @@ public class PartRefinery extends AbstractPart{
 
     }
     public PartRefinery(double amount, double apm, String name,Double wp, AbstractPart alternativeOf) {
-        super(amount, apm, name, alternativeOf, wp);
+        super(amount, apm, name, wp, alternativeOf);
     }
     public boolean add(AbstractProduct childNode, double amount) {
         if (childNode == null) {

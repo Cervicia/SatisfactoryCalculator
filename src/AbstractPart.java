@@ -7,7 +7,7 @@ public abstract class AbstractPart extends AbstractProduct{
     protected String alternativeOf;
     protected Double wp;
 
-    public AbstractPart(double amount, double apm, String name, AbstractPart alternativeOf, Double wp) {
+    public AbstractPart(double amount, double apm, String name,  Double wp, AbstractPart alternativeOf) {
         super(amount, apm, name);
         ingredients = new HashMap<>();
         this.alternativeOf = alternativeOf.getName();

@@ -2,8 +2,8 @@ public class PartFoundry extends AbstractPart{
     public PartFoundry(double amount, double apm, String name, Double wp) {
         super(amount, apm, name, wp);
     }
-    public PartFoundry(double amount, double apm, String name, AbstractPart alternativeOf,Double wp) {
-        super(amount, apm, name, alternativeOf, wp);
+    public PartFoundry(double amount, double apm, String name,Double wp, AbstractPart alternativeOf) {
+        super(amount, apm, name, wp, alternativeOf);
     }
     public boolean add(AbstractProduct childNode, double amount) {
         if (childNode == null) {

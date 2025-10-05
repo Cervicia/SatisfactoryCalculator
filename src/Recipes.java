@@ -26,6 +26,7 @@ public class Recipes {
                         .registerSubtype(PartFoundry.class, "partFoundry")
                         .registerSubtype(PartRefinery.class, "partRefinery")
                         .registerSubtype(PartBlender.class, "partBlender")
+                        .registerSubtype(PartPackager.class, "partPackager")
                         .registerSubtype(PartManufacturer.class, "partManufacturer");
 
         try (FileReader reader = new FileReader("recipes.json")) {

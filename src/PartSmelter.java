@@ -4,8 +4,8 @@ public class PartSmelter extends AbstractPart{
     public PartSmelter(double amount, double apm, String name, Double wp) {
         super(amount, apm, name, wp);
     }
-    public PartSmelter(double amount, double apm, String name, AbstractPart alternativeOf, Double wp) {
-        super(amount, apm, name, alternativeOf, wp);
+    public PartSmelter(double amount, double apm, String name, Double wp, AbstractPart alternativeOf) {
+        super(amount, apm, name, wp, alternativeOf);
     }
     public boolean add(AbstractProduct childNode, double amount) {
         if (childNode == null) {

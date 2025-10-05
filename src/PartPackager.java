@@ -1,16 +1,15 @@
-
-public class PartManufacturer extends AbstractPart{
-    public PartManufacturer(double amount, double apm, String name, Double wp) {
+public class PartPackager extends AbstractPart{
+    public PartPackager(double amount, double apm, String name, Double wp) {
         super(amount, apm, name, wp);
     }
-    public PartManufacturer(double amount, double apm, String name,Double wp, AbstractPart alternativeOf) {
+    public PartPackager(double amount, double apm, String name,Double wp, AbstractPart alternativeOf) {
         super(amount, apm, name, wp, alternativeOf);
     }
     public boolean add(AbstractProduct childNode, double amount) {
         if (childNode == null) {
             throw new NullPointerException();
         }
-        if(!ingredients.containsKey(childNode.getName()) && ingredients.size() <= 4){
+        if(!ingredients.containsKey(childNode.getName()) && ingredients.size() <= 2){
             ingredients.put(childNode.getName(),amount);
             return true;
         } else {
@@ -21,4 +20,3 @@ public class PartManufacturer extends AbstractPart{
         return this.getClass().getSimpleName() + " " + this.name;
     }
 }
-
