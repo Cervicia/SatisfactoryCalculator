@@ -11,11 +11,11 @@ java -jar "satiscalculator.jar"
 ```
 
 ## Usage
-1.Select the alternative recipes, that you want to use
-2.Put in the rate, that you want the item to be produced at
-3.Select the item you want to be produced
-4.The first generated graph sometimes looks a little bit ugly
-  ->enable and disable automatic layout several times, to stabilze the graph
+1.Select the alternative recipes, that you want to use  
+2.Put in the rate, that you want the item to be produced at  
+3.Select the item you want to be produced   
+4.The first generated graph sometimes looks a little bit ugly  
+  ->enable and disable automatic layout several times, to stabilze the graph  
 
 <img width="1436" height="831" alt="image" src="https://github.com/user-attachments/assets/5b3eff8c-2bb3-4d04-b112-74b41984e8cb" />
 
