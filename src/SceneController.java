@@ -26,8 +26,8 @@ import java.util.*;
 
 public class SceneController {
 
-    SmartGraphPanel<VertexWrapper, String> graphView;
-    Digraph<VertexWrapper, String> g;
+    SmartGraphPanel<VertexWrapper, EdgeWrapper> graphView;
+    Digraph<VertexWrapper, EdgeWrapper> g;
     private Vertex<VertexWrapper> targetVertex;
     private HashMap<VertexWrapper, Double> byproductSurplus;
 
@@ -36,6 +36,8 @@ public class SceneController {
         BASE,
         RESOURCE;
     }
+    private double lastMouseX = 0;
+    private double lastMouseY = 0;
 
     @FXML
     private Pane graphContainer;
@@ -62,7 +64,7 @@ public class SceneController {
         ForceDirectedLayoutStrategy<VertexWrapper> automaticPlacementStrategy = new ForceDirectedSpringGravityLayoutStrategy<>();
 
         buildIngredientsGraph(Recipes.recipes.get("Reinforced Iron Plate"), 1);
-        graphView = new SmartGraphPanel<VertexWrapper, String>(g, initialPlacement, automaticPlacementStrategy);
+        graphView = new SmartGraphPanel<VertexWrapper, EdgeWrapper>(g, initialPlacement, automaticPlacementStrategy);
 
         searchBar.setItems(FXCollections.observableArrayList(Recipes.recipes.keySet()));
 
@@ -133,12 +135,6 @@ public class SceneController {
         searchButton.getItems().add(customMenuItem);
 
 
-
-
-
-
-
-
         /*
         After creating, you can change the styling of some element.
         This can be done at any time afterwards.
@@ -147,17 +143,26 @@ public class SceneController {
 
 
         //Scene scene = new Scene(new SmartGraphDemoContainer(graphView), 1024, 768);
+        SmartGraphDemoContainer demoContainer = new SmartGraphDemoContainer(graphView);
+        graphContainer.getChildren().add(demoContainer);
+        demoContainer.prefWidthProperty().bind(graphContainer.widthProperty());
+        demoContainer.prefHeightProperty().bind(graphContainer.heightProperty());
+        //graphContainer.getChildren().add(new SmartGraphDemoContainer(graphView));
+        //graphView.prefWidthProperty().bind(graphContainer.widthProperty());
+        //graphView.prefHeightProperty().bind(graphContainer.heightProperty());
 
 
-        graphContainer.getChildren().add(new SmartGraphDemoContainer(graphView));
-        graphView.prefWidthProperty().bind(graphContainer.widthProperty());
-        graphView.prefHeightProperty().bind(graphContainer.heightProperty());
 
         /*
         IMPORTANT: Must call init() after scene is displayed, so we can have width and height values
         to initially place the vertices according to the placement strategy.
         */
-        javafx.application.Platform.runLater(() -> graphView.init());
+        javafx.application.Platform.runLater(() -> {
+            graphView.init();
+            // This enables the automatic vertex placement behavior
+            graphView.setAutomaticLayout(true);
+        });
+
 
         /*
         Bellow you can see how to attach actions for when vertices and edges are double-clicked
@@ -299,7 +304,7 @@ public class SceneController {
                 graphModifications.add(() -> {
                     g.insertVertex(byproductSourceVertex);
                     // Edge from the refinery process to the new byproduct source node
-                    g.insertEdge(currentVertex, byproductSourceVertex, String.format("%.2f/min", generatedByproductRate));
+                    g.insertEdge(currentVertex, byproductSourceVertex, new EdgeWrapper(currentVertex, byproductSourceVertex, generatedByproductRate));
                 });
             } else if(product instanceof PartBlender partBlender) {
                 String byProductString = partBlender.getByProduct();
@@ -324,7 +329,7 @@ public class SceneController {
                 graphModifications.add(() -> {
                     g.insertVertex(byproductSourceVertex);
                     // Edge from the refinery process to the new byproduct source node
-                    g.insertEdge(currentVertex, byproductSourceVertex, String.format("%.2f/min", generatedByproductRate));
+                    g.insertEdge(currentVertex, byproductSourceVertex, new EdgeWrapper(currentVertex, byproductSourceVertex, generatedByproductRate));
                 });
             }
         }
@@ -397,12 +402,12 @@ public class SceneController {
                     for(VertexWrapper ingredientVertex : byproductSurplus.keySet()) {
                         if(ingredientVertex.getProduct().equals(ingredient)) {
                             requiredIngredientRate = Math.max(0, requiredIngredientRate - byproductSurplus.get(ingredientVertex));
-                            g.insertEdge(vertices.get(targetPart), ingredientVertex, String.format("%.2f/min", byproductSurplus.get(ingredientVertex)) + i);
+                            g.insertEdge(vertices.get(targetPart), ingredientVertex, new EdgeWrapper(vertices.get(targetPart), ingredientVertex, byproductSurplus.get(ingredientVertex)));
                             i++;
                         }
                     }
                     productsToProcess.push(new ProductRatePair(ingredient, requiredIngredientRate));
-                    g.insertEdge(vertices.get(targetPart), vertices.get(ingredient), requiredIngredientRate + "/min" + i);
+                    g.insertEdge(vertices.get(targetPart), vertices.get(ingredient), new EdgeWrapper(vertices.get(targetPart), vertices.get(ingredient), requiredIngredientRate));
                     i++;
                 }
             }

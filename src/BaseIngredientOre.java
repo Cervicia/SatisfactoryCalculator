@@ -3,7 +3,6 @@ public class BaseIngredientOre extends AbstractBaseIngredient{
         super(amount, apm, name);
     }
     public String toString() {
-        return "Name: " + this.name;
+        return "Resource Node (240/min)" + this.name;
     }
-
 }

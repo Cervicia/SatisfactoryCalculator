@@ -164,7 +164,7 @@ public class GenerateJson {
         rawQuartz = new BaseIngredientOre(1, 240, "Raw Quartz");
         uranium = new BaseIngredientOre(1, 240, "Uranium");
         sam = new BaseIngredientOre(1, 240, "SAM");
-        water = new BaseIngredientOre(1, 1200, "Water");
+        water = new BaseIngredientOre(1, 120, "Water");
         leaves = new BaseIngredientOre(1, 10, "Leaves");
         mycelia = new BaseIngredientOre(1, 10, "Mycelia");
         nitrogenGas = new BaseIngredientOre(1, 240, "Nitrogen Gas");
