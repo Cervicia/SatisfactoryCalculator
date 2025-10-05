@@ -1,6 +1,6 @@
 # Satisfactory Calculator
 
-Satisfactory Calculator is a small Java GUI application for calculating the needed steps, building and resources the build a specific item.
+Satisfactory Calculator is a small Java GUI application for calculating the needed steps, building and resources the build a specific item. Visualized thanks to the [JavaFXSmartGraph](https://github.com/brunomnsilva/JavaFXSmartGraph) libary 
 
 ## Installation
 
