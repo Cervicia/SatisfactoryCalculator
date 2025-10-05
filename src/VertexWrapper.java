@@ -9,6 +9,10 @@ public class VertexWrapper {
         this.product = product;
     }
 
+    public AbstractProduct getProduct() {
+        return product;
+    }
+
     public double getProductAmount() {
         return productAmount;
     }
@@ -16,9 +20,25 @@ public class VertexWrapper {
     public double getBuildingAmount() {
         return buildingAmount;
     }
+
+    public void setProductAmount(double productAmount) {
+        this.productAmount = productAmount;
+    }
+
+    public void setBuildingAmount(double buildingAmount) {
+        this.buildingAmount = buildingAmount;
+    }
+
     public String toString() {
-        String output = String.format("%s: %.2f/min %n %s: %.2f Buildings", product.getName(),productAmount, product.getClass().getSimpleName(), buildingAmount);
-        return output;
+        if(buildingAmount != 0) {
+            String output = String.format("%s: %.2f/min %n %s: %.2f Buildings", product.getName(),productAmount, product.getClass().getSimpleName(), buildingAmount);
+            return output;
+        } else {
+            String output = String.format("%s: %.2f/min", product.getName(),productAmount);
+            return output;
+        }
+
+
     }
 
 }

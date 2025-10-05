@@ -27,6 +27,7 @@ public class GenerateJson {
 
 
 
+
     PartSmelter ironIngot;
     PartSmelter copperIngot;
     PartSmelter cateriumIngot;
@@ -35,6 +36,7 @@ public class GenerateJson {
     PartRefinery rubber;
     PartRefinery aluminaSolution;
     PartRefinery aluminiumScrap;
+    PartRefinery heavyOilResidue;
 
     PartFoundry steelIngot;
     PartFoundry aluminiumIngot;
@@ -168,6 +170,7 @@ public class GenerateJson {
         nitrogenGas = new BaseIngredientOre(1, 240, "Nitrogen Gas");
 
 
+
         //Smelter
         ironIngot = new PartSmelter(1, 30, "Iron Ingot", 8.53);
         ironIngot.add(ironOre, 1);
@@ -189,6 +192,8 @@ public class GenerateJson {
         aluminiumScrap = new PartRefinery(6, 360, "Aluminium Scrap", 1.15);
         aluminiumScrap.add(aluminaSolution, 4);
         aluminiumScrap.add(coal, 2);
+        heavyOilResidue = new PartRefinery(2, 20, "Heavy Oil Residue", 1.15);
+        heavyOilResidue.add(crudeOil, 3);
 
         //Foundry
         steelIngot = new PartFoundry(3, 45, "Steel Ingot", 1.15);
@@ -345,5 +350,17 @@ public class GenerateJson {
         turboMotor.add(radioControlUnit, 2);
         turboMotor.add(motor, 4);
         turboMotor.add(rubber, 24);
+
+        //Set ByProducts Refinery
+        plastic.setByProduct(heavyOilResidue);
+        plastic.setByProductAmount(1);
+        rubber.setByProduct(heavyOilResidue);
+        rubber.setByProductAmount(2);
+        aluminaSolution.setByProduct(silica);
+        aluminaSolution.setByProductAmount(5);
+        aluminiumScrap.setByProduct(water);
+        aluminiumScrap.setByProductAmount(2);
+
+
     }
 }

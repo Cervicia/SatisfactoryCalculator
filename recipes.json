@@ -67,6 +67,8 @@
   },
   "Alumina Solution": {
     "type": "partRefinery",
+    "byProduct": "Silica",
+    "byProductAmount": 5.0,
     "ingredients": {
       "Water": 18.0,
       "Bauxite": 12.0
@@ -79,6 +81,8 @@
   },
   "Aluminium Scrap": {
     "type": "partRefinery",
+    "byProduct": "Water",
+    "byProductAmount": 2.0,
     "ingredients": {
       "Coal": 2.0,
       "Alumina Solution": 4.0
@@ -275,6 +279,18 @@
     "amount": 1.0,
     "name": "Iron Rod"
   },
+  "Heavy Oil Residue": {
+    "type": "partRefinery",
+    "byProductAmount": 0.0,
+    "ingredients": {
+      "Crude Oil": 3.0
+    },
+    "alternativeOf": "Heavy Oil Residue",
+    "wp": 1.15,
+    "apm": 20.0,
+    "amount": 2.0,
+    "name": "Heavy Oil Residue"
+  },
   "Modular Frame": {
     "type": "partAssembler",
     "ingredients": {
@@ -302,6 +318,7 @@
   },
   "Cooling System": {
     "type": "partBlender",
+    "byProductAmount": 0.0,
     "ingredients": {
       "Water": 5.0,
       "Nitrogen Gas": 25.0,
@@ -428,6 +445,8 @@
   },
   "Plastic": {
     "type": "partRefinery",
+    "byProduct": "Heavy Oil Residue",
+    "byProductAmount": 1.0,
     "ingredients": {
       "Crude Oil": 3.0
     },
@@ -535,6 +554,8 @@
   },
   "Rubber": {
     "type": "partRefinery",
+    "byProduct": "Heavy Oil Residue",
+    "byProductAmount": 2.0,
     "ingredients": {
       "Crude Oil": 3.0
     },
