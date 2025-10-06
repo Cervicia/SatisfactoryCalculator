@@ -11,35 +11,28 @@ public class BuildIngredientsGraph {
     private Digraph<VertexWrapper, EdgeWrapper> g;
     private HashMap<VertexWrapper, Double> byproductSurplus;
 
+    public record NodeInfo(Double rate, int level) {}
+
     public BuildIngredientsGraph(Digraph<VertexWrapper, EdgeWrapper> g) {
         this.g = g;
     }
 
     public HashMap<AbstractProduct, VertexWrapper> buildIngredientsGraph(Map<AbstractProduct, Double> targets, HashMap<VertexWrapper, Double> byproductSurplus) {
+
         this.byproductSurplus = byproductSurplus;
-
         Calculator calculator = new Calculator();
-        Vertex<VertexWrapper> returnvertex = null;
-        HashMap<AbstractProduct, Double> verticesAmount = new HashMap<>();
-        HashMap<AbstractProduct, Double> buildingsAmount = new HashMap<>();
+        HashMap<AbstractProduct, VertexWrapper> verticesAmount = new HashMap<>();
+
         for(Map.Entry<AbstractProduct, Double> target : targets.entrySet()) {
-            HashMap<AbstractProduct, Double> tempAmount = calculator.getIngredientsAPM(target.getKey(), target.getValue());
-            HashMap<AbstractProduct, Double> tempBuilding = calculator.getBuildingCount(target.getKey(), target.getValue());
+            HashMap<AbstractProduct, VertexWrapper> tempAmount = calculator.getIngredientsAPM(target.getKey(), new VertexWrapper(target.getKey(), target.getValue(), target.getValue()/target.getKey().getApm(), 0));
             mergeAPMMaps(verticesAmount, tempAmount);
-            mergeAPMMaps(buildingsAmount, tempBuilding);
         }
 
-        HashMap<AbstractProduct, VertexWrapper> vertices = new HashMap<>();
-
-        for (Map.Entry<AbstractProduct, Double> entry : verticesAmount.entrySet()) {
-
-            VertexWrapper vertex = new VertexWrapper(entry.getKey(), entry.getValue(), buildingsAmount.get(entry.getKey()));
-
-            vertices.put(entry.getKey(),vertex );
-            Vertex<VertexWrapper>realvertex = g.insertVertex(vertex);
+        for (VertexWrapper vertex : verticesAmount.values()) {
+            g.insertVertex(vertex);
         }
 
-        HashMap<AbstractProduct, VertexWrapper> verticesWithLoops = addByProducts(vertices);
+        HashMap<AbstractProduct, VertexWrapper> verticesWithLoops = addByProducts(verticesAmount);
         addVerticesEdges(verticesWithLoops);
 
         return verticesWithLoops;
@@ -69,7 +62,7 @@ public class BuildIngredientsGraph {
 
                 // Create a new "source" vertex for the byproduct. This makes the graph clearer.
                 // Note: buildingAmount is 0 as it's a byproduct of an existing building.
-                VertexWrapper byproductSourceVertex = new VertexWrapper(byProduct, generatedByproductRate, 0);
+                VertexWrapper byproductSourceVertex = new VertexWrapper(byProduct, generatedByproductRate, 0, 0);
                 // Add the generated amount to our surplus map
                 byproductSurplus.merge(byproductSourceVertex, generatedByproductRate, Double::sum);
 
@@ -94,7 +87,7 @@ public class BuildIngredientsGraph {
 
                 // Create a new "source" vertex for the byproduct. This makes the graph clearer.
                 // Note: buildingAmount is 0 as it's a byproduct of an existing building.
-                VertexWrapper byproductSourceVertex = new VertexWrapper(byProduct, generatedByproductRate, 0);
+                VertexWrapper byproductSourceVertex = new VertexWrapper(byProduct, generatedByproductRate, 0, 0);
                 // Add the generated amount to our surplus map
                 byproductSurplus.merge(byproductSourceVertex, generatedByproductRate, Double::sum);
 
@@ -122,16 +115,17 @@ public class BuildIngredientsGraph {
                 // required to make it. This requires recalculating upstream.
                 // For simplicity here, we adjust the building count proportionally. A more advanced
                 // solution might involve re-running your Calculator.
+                double buildingsAmount = 0;
                 if (originalAmount > 0) {
                     double ratio = newAmount / originalAmount;
+                    buildingsAmount = ratio * originalAmount;
                     consumerVertex.setBuildingAmount(consumerVertex.getBuildingAmount() * ratio);
                 }
-                HashMap<AbstractProduct,Double> verticesNewAmount = calculatorPart.getIngredientsAPM(byProduct, newAmount);
-                HashMap<AbstractProduct,Double> verticesNewBuildingsAmount = calculatorPart.getBuildingCount(byProduct, newAmount);
-                for(Map.Entry<AbstractProduct,Double> entry : verticesNewAmount.entrySet()) {
+                HashMap<AbstractProduct,VertexWrapper> verticesNewAmount = calculatorPart.getIngredientsAPM(byProduct, new VertexWrapper(byProduct, newAmount, buildingsAmount, consumerVertex.getLevel()));
+                for(Map.Entry<AbstractProduct,VertexWrapper> entry : verticesNewAmount.entrySet()) {
                     if(!entry.getKey().equals(byProduct)) {
-                        productToVertexMap.get(entry.getKey()).setProductAmount(entry.getValue());
-                        productToVertexMap.get(entry.getKey()).setBuildingAmount(verticesNewBuildingsAmount.get(entry.getKey()));
+                        productToVertexMap.get(entry.getKey()).setProductAmount(entry.getValue().getProductAmount());
+                        productToVertexMap.get(entry.getKey()).setBuildingAmount(entry.getValue().getBuildingAmount());
                     }
                 }
             }
@@ -237,10 +231,13 @@ public class BuildIngredientsGraph {
     public Digraph<VertexWrapper, EdgeWrapper> getG() {
         return g;
     }
-    private HashMap<AbstractProduct, Double> mergeAPMMaps(HashMap<AbstractProduct, Double> map1, HashMap<AbstractProduct, Double> map2) {
-        for(Map.Entry<AbstractProduct, Double> entry : map2.entrySet()) {
+
+
+    private HashMap<AbstractProduct, VertexWrapper> mergeAPMMaps(HashMap<AbstractProduct, VertexWrapper> map1, HashMap<AbstractProduct, VertexWrapper> map2) {
+        for(Map.Entry<AbstractProduct, VertexWrapper> entry : map2.entrySet()) {
             if(map1.containsKey(entry.getKey())) {
-                map1.put(entry.getKey(), map1.get(entry.getKey()) + entry.getValue());
+                VertexWrapper newNodeInfo = new VertexWrapper(entry.getKey(), map1.get(entry.getKey()).getProductAmount() + entry.getValue().getProductAmount(), map1.get(entry.getKey()).getBuildingAmount() + entry.getValue().getBuildingAmount(), Math.max(map1.get(entry.getKey()).getLevel(), entry.getValue().getLevel()));
+                map1.put(entry.getKey(),  newNodeInfo);
             } else {
                 map1.put(entry.getKey(), entry.getValue());
             }

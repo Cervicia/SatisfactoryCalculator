@@ -16,6 +16,7 @@ public class SceneController {
     Digraph<VertexWrapper, EdgeWrapper> g;
     private ProductInputView productInput;
     private ProductInputView resourcesInput;
+    private boolean graphInitialized = false;
 
 
     public enum style {
@@ -32,18 +33,13 @@ public class SceneController {
     private VBox productsContainer;
 
 
-
-    public void up(ActionEvent actionEvent) {
-        System.out.println("up");
-    }
-
     @FXML
     public void initialize() {
 
 
         //initialize Graph and build a demo one
         g = new DigraphEdgeList<>();
-        SmartPlacementStrategy initialPlacement = new SmartCircularSortedPlacementStrategy();
+        SmartPlacementStrategy initialPlacement = new GraphPlacementStrategy();
         ForceDirectedLayoutStrategy<VertexWrapper> automaticPlacementStrategy = new ForceDirectedSpringGravityLayoutStrategy<>();
 
         BuildIngredientsGraph initialGraph = new BuildIngredientsGraph(g);
@@ -89,10 +85,12 @@ public class SceneController {
         IMPORTANT: Must call init() after scene is displayed, so we can have width and height values
         to initially place the vertices according to the placement strategy.
         */
+
+        graphContainer.layout();
+
         javafx.application.Platform.runLater(() -> {
             graphView.init();
-            // This enables the automatic vertex placement behavior
-            graphView.setAutomaticLayout(true);
+            graphView.setAutomaticLayout(false);
         });
 
 
@@ -131,45 +129,104 @@ public class SceneController {
 
         if(!productsInputMap.isEmpty()) {
             if(!resourcesInputMap.isEmpty()) {
-                resourcesInputMap.forEach((key, value) -> {selectedResources.put(new VertexWrapper(Recipes.recipes.get(key), value, 0) , value);});
+                resourcesInputMap.forEach((key, value) -> {selectedResources.put(new VertexWrapper(Recipes.recipes.get(key), value, 0, 0) , value);});
             }
             productsInputMap.forEach((key, value) -> {selectedProducts.put(Recipes.recipes.get(key), value);});
             //build new Graph
             newGraphLogic.clearGraph();
             Map<AbstractProduct, VertexWrapper> vertices  = newGraphLogic.buildIngredientsGraph(selectedProducts, selectedResources);
             g = newGraphLogic.getG();
-            graphView.update();
 
-            HashMap<Vertex<VertexWrapper>, style> verticesToStyle = new HashMap<>();
-            for(Vertex<VertexWrapper> v : g.vertices()) {
-                VertexWrapper element =  v.element();
-                if(selectedProducts.containsKey(element.getProduct())) {
-                    final Vertex<VertexWrapper> finalTarget = v;
-                    verticesToStyle.put(finalTarget, style.TARGET);
-                } else if(element.getProduct() instanceof AbstractBaseIngredient) {
-                    final Vertex<VertexWrapper> finalBaseIngredient = v;
-                    verticesToStyle.put(finalBaseIngredient, style.BASE);
-                }if(element.getBuildingAmount() == 0) {
-                    final Vertex<VertexWrapper> finalResource = v;
-                    verticesToStyle.put(finalResource, style.RESOURCE);
+            // Recreate the graph view with fresh placement
+            SmartPlacementStrategy initialPlacement = new GraphPlacementStrategy();
+            ForceDirectedLayoutStrategy<VertexWrapper> automaticPlacementStrategy = new ForceDirectedSpringGravityLayoutStrategy<>();
+            graphView = new SmartGraphPanel<>(g, initialPlacement, automaticPlacementStrategy);
+
+            // Clear and re-add to container
+            SmartGraphDemoContainer demoContainer = (SmartGraphDemoContainer) graphContainer.getChildren().get(0);
+            graphContainer.getChildren().clear();
+
+            demoContainer = new SmartGraphDemoContainer(graphView);
+            graphContainer.getChildren().add(demoContainer);
+            demoContainer.prefWidthProperty().bind(graphContainer.widthProperty());
+            demoContainer.prefHeightProperty().bind(graphContainer.heightProperty());
+
+            // Force layout
+            graphContainer.layout();
+
+            if (graphView.getScene() != null) {
+                // Already has scene, can init immediately (in next frame)
+                javafx.application.Platform.runLater(() -> {
+                    initializeGraphView(selectedProducts);
+                });
+            } else {
+                // Wait for scene to be set
+                graphView.sceneProperty().addListener(new javafx.beans.value.ChangeListener<javafx.scene.Scene>() {
+                    @Override
+                    public void changed(javafx.beans.value.ObservableValue<? extends javafx.scene.Scene> obs,
+                                        javafx.scene.Scene oldScene, javafx.scene.Scene newScene) {
+                        if (newScene != null) {
+                            javafx.application.Platform.runLater(() -> {
+                                initializeGraphView(selectedProducts);
+                            });
+                            graphView.sceneProperty().removeListener(this);
+                        }
+                    }
+                });
+            }
+
+
+        }
+    }
+    private void applyVertexStyling(Map<AbstractProduct, Double> selectedProducts) {
+        HashMap<Vertex<VertexWrapper>, style> verticesToStyle = new HashMap<>();
+        for(Vertex<VertexWrapper> v : g.vertices()) {
+            VertexWrapper element = v.element();
+            if(selectedProducts.containsKey(element.getProduct())) {
+                verticesToStyle.put(v, style.TARGET);
+            } else if(element.getProduct() instanceof AbstractBaseIngredient) {
+                verticesToStyle.put(v, style.BASE);
+            }
+            if(element.getBuildingAmount() == 0) {
+                verticesToStyle.put(v, style.RESOURCE);
+            }
+        }
+
+        for(Map.Entry<Vertex<VertexWrapper>, style> entry : verticesToStyle.entrySet()) {
+            SmartStylableNode stylableView = graphView.getStylableVertex(entry.getKey());
+            if (stylableView != null) {
+                if(entry.getValue() == style.BASE) {
+                    stylableView.setStyleInline("-fx-fill: grey; -fx-stroke: darkgrey;");
+                }
+                if(entry.getValue() == style.RESOURCE) {
+                    stylableView.setStyleInline("-fx-fill: greenyellow; -fx-stroke: forestgreen;");
+                } else if(entry.getValue() == style.TARGET) {
+                    stylableView.setStyleInline("-fx-fill: gold; -fx-stroke: brown;");
                 }
             }
-            javafx.application.Platform.runLater(() -> {
-                for(Map.Entry<Vertex<VertexWrapper>, style> entry : verticesToStyle.entrySet()) {
-                    SmartStylableNode stylableView = graphView.getStylableVertex(entry.getKey());
-                    if (stylableView != null) {
-                        if(entry.getValue() == style.BASE) {
-                            stylableView.setStyleInline("-fx-fill: grey; -fx-stroke: darkgrey;");
-                        }
-                        if(entry.getValue() == style.RESOURCE) {
-                            stylableView.setStyleInline("-fx-fill: greenyellow; -fx-stroke: forestgreen;");
-                        } else if(entry.getValue() == style.TARGET) {
-                            stylableView.setStyleInline("-fx-fill: gold; -fx-stroke: brown;");
-                        }
+        }
+    }
 
-                    } else {
-                        // This might happen if the graph is cleared again before this code runs
-                        System.err.println("Could not find the stylable vertex for: " + entry.getKey().element());
+    private void initializeGraphView(Map<AbstractProduct, Double> selectedProducts) {
+        // Ensure container has dimensions
+        if (graphContainer.getWidth() > 0 && graphContainer.getHeight() > 0) {
+            graphView.init();
+            graphView.setAutomaticLayout(false);
+
+            // Apply styling after initialization
+            javafx.application.Platform.runLater(() -> {
+                applyVertexStyling(selectedProducts);
+            });
+        } else {
+            // If dimensions not available yet, wait for them
+            graphContainer.widthProperty().addListener(new javafx.beans.value.ChangeListener<Number>() {
+                @Override
+                public void changed(javafx.beans.value.ObservableValue<? extends Number> obs, Number oldVal, Number newVal) {
+                    if (newVal.doubleValue() > 0 && graphContainer.getHeight() > 0) {
+                        graphView.init();
+                        graphView.setAutomaticLayout(false);
+                        applyVertexStyling(selectedProducts);
+                        graphContainer.widthProperty().removeListener(this);
                     }
                 }
             });
