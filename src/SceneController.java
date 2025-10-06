@@ -47,7 +47,7 @@ public class SceneController {
         ForceDirectedLayoutStrategy<VertexWrapper> automaticPlacementStrategy = new ForceDirectedSpringGravityLayoutStrategy<>();
 
         BuildIngredientsGraph initialGraph = new BuildIngredientsGraph(g);
-        initialGraph.buildIngredientsGraph(new HashMap<AbstractProduct, Double>(){{put(Recipes.recipes.get("Reinforced Iron Plate"), 1.0);}});
+        initialGraph.buildIngredientsGraph(new HashMap<AbstractProduct, Double>(){{put(Recipes.recipes.get("Reinforced Iron Plate"), 1.0);}}, new HashMap<>());
         g = initialGraph.getG();
         graphView = new SmartGraphPanel<VertexWrapper, EdgeWrapper>(g, initialPlacement, automaticPlacementStrategy);
 
@@ -121,14 +121,22 @@ public class SceneController {
     }
 
     public void selectProduct(ActionEvent event) {
+        //Get selected products and resources
         BuildIngredientsGraph newGraphLogic = new BuildIngredientsGraph(g);
         Map<String, Double> productsInputMap = productInput.getProductData();
         Map<AbstractProduct, Double> selectedProducts = new HashMap<>();
+        Map<String, Double> resourcesInputMap = resourcesInput.getProductData();
+        HashMap<VertexWrapper, Double> selectedResources = new HashMap<>();
+
 
         if(!productsInputMap.isEmpty()) {
+            if(!resourcesInputMap.isEmpty()) {
+                resourcesInputMap.forEach((key, value) -> {selectedResources.put(new VertexWrapper(Recipes.recipes.get(key), value, 0) , value);});
+            }
             productsInputMap.forEach((key, value) -> {selectedProducts.put(Recipes.recipes.get(key), value);});
+            //build new Graph
             newGraphLogic.clearGraph();
-            Map<AbstractProduct, VertexWrapper> vertices  = newGraphLogic.buildIngredientsGraph(selectedProducts);
+            Map<AbstractProduct, VertexWrapper> vertices  = newGraphLogic.buildIngredientsGraph(selectedProducts, selectedResources);
             g = newGraphLogic.getG();
             graphView.update();
 
@@ -141,7 +149,7 @@ public class SceneController {
                 } else if(element.getProduct() instanceof AbstractBaseIngredient) {
                     final Vertex<VertexWrapper> finalBaseIngredient = v;
                     verticesToStyle.put(finalBaseIngredient, style.BASE);
-                } else if(element.getBuildingAmount() == 0) {
+                }if(element.getBuildingAmount() == 0) {
                     final Vertex<VertexWrapper> finalResource = v;
                     verticesToStyle.put(finalResource, style.RESOURCE);
                 }

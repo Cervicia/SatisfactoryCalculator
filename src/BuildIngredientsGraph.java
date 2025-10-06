@@ -15,7 +15,9 @@ public class BuildIngredientsGraph {
         this.g = g;
     }
 
-    public HashMap<AbstractProduct, VertexWrapper> buildIngredientsGraph(Map<AbstractProduct, Double> targets) {
+    public HashMap<AbstractProduct, VertexWrapper> buildIngredientsGraph(Map<AbstractProduct, Double> targets, HashMap<VertexWrapper, Double> byproductSurplus) {
+        this.byproductSurplus = byproductSurplus;
+
         Calculator calculator = new Calculator();
         Vertex<VertexWrapper> returnvertex = null;
         HashMap<AbstractProduct, Double> verticesAmount = new HashMap<>();
@@ -43,10 +45,11 @@ public class BuildIngredientsGraph {
         return verticesWithLoops;
     }
     private HashMap<AbstractProduct, VertexWrapper> addByProducts(HashMap<AbstractProduct, VertexWrapper> productToVertexMap) {
-        int i = 0;
 
-        byproductSurplus = new HashMap<>();
         List<Runnable> graphModifications = new ArrayList<>();
+        for(VertexWrapper resource : byproductSurplus.keySet()) {
+            g.insertVertex(resource);
+        }
 
         Calculator calculatorPart = new Calculator();
         for (VertexWrapper currentVertex : new ArrayList<>(productToVertexMap.values())) {
