@@ -8,7 +8,7 @@ import java.util.List;
 
 public class GraphPlacementStrategy implements SmartPlacementStrategy {
 
-    private final int heightPadding = 50;
+    private final int heightPadding = 120;
     private final int widthPadding = 200;
 
     public GraphPlacementStrategy() {
@@ -24,7 +24,7 @@ public class GraphPlacementStrategy implements SmartPlacementStrategy {
         });
 
 
-        Point2D rightCenter = new Point2D(width  - 100, height / 2);
+        Point2D rightCenter = new Point2D(width  - 100, (height / 2));
         int levelCounter = 0;
         int padding = 0;
         boolean top = true;
@@ -34,14 +34,17 @@ public class GraphPlacementStrategy implements SmartPlacementStrategy {
             if(((VertexWrapper)vertex.getUnderlyingVertex().element()).getLevel() != levelCounter) {
                 levelCounter++;
                 padding = 0;
+                top = true;
             }
             if(top) {
-                p = new Point2D(rightCenter.getX() - levelCounter * widthPadding, rightCenter.getY() + padding*heightPadding);
-                padding++;
-            } else {
                 p = new Point2D(rightCenter.getX() - levelCounter * widthPadding, rightCenter.getY() - padding*heightPadding);
-                padding++;
+                top = false;
+                padding ++;
+            } else {
+                p = new Point2D(rightCenter.getX() - levelCounter * widthPadding, rightCenter.getY() + padding*heightPadding);
+                top = true;
             }
+
             vertex.setPosition(p.getX(), p.getY());
         }
 
