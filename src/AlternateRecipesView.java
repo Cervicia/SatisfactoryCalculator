@@ -43,8 +43,8 @@ public class AlternateRecipesView extends MenuButton {
         });
 
         listView = new ListView<>(filteredItems);
-        listView.setPrefHeight(250);
-        listView.setPrefWidth(200);
+        listView.setPrefHeight(300);
+        listView.setPrefWidth(300);
 
         listView.setCellFactory(CheckBoxListCell.forListView(item -> {
             // Create a property to represent the checked state
